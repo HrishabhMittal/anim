@@ -81,15 +81,49 @@ public:
     }
 };
 class RoundedRect: public Object {
-
+    double x,y,w,h,r;
+public:
+    RoundedRect(SDL_Rect r,double radius,SDL_Color c): x(r.x),y(r.y),w(r.w),h(r.h),r(radius),Object(c) {}
+    void move(double dx,double dy) override {
+        x+=dx;
+        y+=dy;
+    }
+    void render() override {
+        Window::setColor(color);
+        Window::fillRoundedRect(x,y,w,h,r);
+    }
+};
+class Circle: public Object {
+    double x,y,r;
+public:
+    Circle(SDL_Point r,double radius,SDL_Color c): x(r.x),y(r.y),r(radius),Object(c) {}
+    void move(double dx,double dy) override {
+        x+=dx;
+        y+=dy;
+    }
+    void render() override {
+        Window::setColor(color);
+        Window::fillCircle(x,y,r);
+    }
 };
 class Line: public Object {
-
+    double x1,y1,x2,y2;
+public:
+    Line(SDL_Point p1,SDL_Point p2,SDL_Color c): x1(p1.x),y1(p1.y),x2(p2.x),y2(p2.y),Object(c) {}
+    void move(double dx,double dy) override {
+        x1+=dx; x2+=dx;
+        y1+=dy; y2+=dy;
+    }
+    void render() override {
+        Window::setColor(color);
+        Window::drawLine(x1,y1,x2,y2);
+    }
 };
-class Image: public Object {
-
-};
-class Text: public Object {
-
-};
+// Maybe someday
+// class Image: public Object {
+// 
+// };
+// class Text: public Object {
+// 
+// };
 #endif

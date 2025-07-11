@@ -108,11 +108,11 @@ public:
         value+=dx*st;
     }
 };
-class AnimationGroup {
+class AnimationGroup: public Animation {
 public:
     std::vector<Animation*> anims;
     bool done=false;
-    AnimationGroup() {}
+    AnimationGroup(): Animation(nullptr) {}
     void push(Animation* an) {
         anims.push_back(an);
     }
@@ -131,16 +131,17 @@ public:
         }
     }
 };
-class AnimationSequence {
+class AnimationSequence: public Animation {
 public:
     bool done=false;
-    std::vector<AnimationGroup*> ags;
-    void push(AnimationGroup* ag) {
+    std::vector<Animation*> ags;
+    AnimationSequence(): Animation(nullptr) {}
+    void push(Animation* ag) {
         ags.push_back(ag);
     }
     void update() {
         for (auto i:ags) {
-            if (!i->done) {
+            if (!i->isdone()) {
                 i->update();
                 return;
             }

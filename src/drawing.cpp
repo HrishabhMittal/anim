@@ -164,7 +164,11 @@ namespace Window {
         SDL_Rect rect = {x,y,w,h};
         SDL_RenderFillRect(renderer,&rect);
     }
+    void drawCircle(int centerX,int centerY,int radius) {
+        aacircleRGBA(renderer,offsetx+centerX,offsety+centerY,radius,curcolor.r,curcolor.g,curcolor.b,curcolor.a);
+    }
     void fillCircle(int centerX,int centerY,int radius) {
+        drawCircle(centerX,centerY,radius);
         filledCircleRGBA(renderer,offsetx+centerX,offsety+centerY,radius,curcolor.r,curcolor.g,curcolor.b,curcolor.a);
     }
     void fillRoundedRect(int x, int y, int w, int h, int r) {
@@ -179,9 +183,6 @@ namespace Window {
         fillCircle(x + w - r - 1, y + r, r); 
         fillCircle(x + r, y + h - r - 1, r); 
         fillCircle(x + w - r - 1, y + h - r - 1, r); 
-    }
-    void drawCircle(int centerX,int centerY,int radius) {
-        circleRGBA(renderer,offsetx+centerX,offsety+centerY,radius,curcolor.r,curcolor.g,curcolor.b,curcolor.a);
     }
     void drawArc(int x,int y,int radius,float startAngle,float endAngle) {
         x+=offsetx;y+=offsety;
@@ -208,6 +209,7 @@ namespace Window {
             x[i] = px[i] + offsetx;
             y[i] = py[i] + offsety;
         }
+        aapolygonRGBA(renderer, x.data(), y.data(), num_points, curcolor.r, curcolor.g, curcolor.b, curcolor.a);
         filledPolygonRGBA(renderer, x.data(), y.data(), num_points, curcolor.r, curcolor.g, curcolor.b, curcolor.a);
     }
     int loadImageOntoTexture(const std::string& path) {
