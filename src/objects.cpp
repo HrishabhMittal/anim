@@ -11,9 +11,12 @@ class Object {
 public:
     SDL_Color color;
     Object(SDL_Color c): color(c) {}
-    virtual void move(int dx,int dy)=0;
+    virtual void move(double dx,double dy)=0;
     void changeColor(SDL_Color c) {
         color=c;
+    }
+    SDL_Color getColor() {
+        return color;
     }
     virtual void render()=0;
     virtual ~Object() {};
@@ -22,7 +25,7 @@ class ObjectGroup: public Object {
     std::vector<Object*> obj;
 public:
     ObjectGroup(): Object({0,0,0,0}) {}
-    void move(int dx,int dy) override {
+    void move(double dx,double dy) override {
         for (auto i:obj) {
             i->move(dx,dy);
         }
@@ -42,10 +45,10 @@ public:
     }
 };
 class Polygon: public Object {
-    std::vector<Sint16> px;
-    std::vector<Sint16> py;
+    std::vector<double> px;
+    std::vector<double> py;
 public:
-    void move(int dx,int dy) override {
+    void move(double dx,double dy) override {
         for (auto& i:px) i+=dx;
         for (auto& i:py) i+=dy;
     }
@@ -57,20 +60,24 @@ public:
     }
     void render() override {
         Window::setColor(color);
-        Window::fillPoly(px,py);
+        std::vector<Sint16> spx(px.size(),0);
+        std::vector<Sint16> spy(py.size(),0);
+        for (int i=0;i<spx.size();i++) spx[i]=px[i];
+        for (int i=0;i<spy.size();i++) spy[i]=py[i];
+        Window::fillPoly(spx,spy);
     }
 };
 class Rectangle: public Object {
-    SDL_Rect r;
+    double x,y,w,h;
 public:
-    Rectangle(SDL_Rect r,SDL_Color c): r(r),Object(c) {}
-    void move(int dx,int dy) override {
-        r.x+=dx;
-        r.x+=dy;
+    Rectangle(SDL_Rect r,SDL_Color c): x(r.x),y(r.y),w(r.w),h(r.h),Object(c) {}
+    void move(double dx,double dy) override {
+        x+=dx;
+        y+=dy;
     }
     void render() override {
         Window::setColor(color);
-        Window::fillRect(r);
+        Window::fillRect(x,y,w,h);
     }
 };
 class RoundedRect: public Object {
