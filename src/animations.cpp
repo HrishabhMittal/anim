@@ -1,14 +1,14 @@
 #ifndef ANIME 
 #define ANIME
 #include "objects.cpp"
+#include <iostream>
+#include <ostream>
 #include <vector>
 class Animation {
 public:
     bool done=false;
     Object* obj;
-    Animation(Object* obj) {
-        
-    }
+    Animation(Object* obj): obj(obj) {}
     bool isdone() {
         return done;
     }

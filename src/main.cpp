@@ -1,6 +1,8 @@
 #include "animations.cpp"
 #include "drawing.cpp"
 #include "textures.cpp"
+#include <iostream>
+#include <ostream>
 
 int main() {
     Window::create("something",1000,800);
@@ -13,7 +15,9 @@ int main() {
     objg.push(rect);
     while (Window::running) {
         Window::pollEvents();
-        Window::clear();
+        Window::clear({0,0,0,255});
+
+
         as.update();
         objg.render();
         Window::present();

@@ -4,6 +4,8 @@
 #include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_stdinc.h>
+#include <iostream>
+#include <ostream>
 #include <vector>
 class Object {
 public:
